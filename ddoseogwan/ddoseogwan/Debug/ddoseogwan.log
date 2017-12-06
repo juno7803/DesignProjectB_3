@@ -1,0 +1,25 @@
+﻿  SearchAlgorithm.cpp
+  Hash.cpp
+  Book.cpp
+  BinarySearch.cpp
+  BSTNode.cpp
+  BST.cpp
+  App.cpp
+c:\users\juno\documents\github\designproject_b\designprojectb_3\ddoseogwan\ddoseogwan\app.cpp(24): warning C4800: 'int': 'true' 또는 'false'로 bool 값을 강제하고 있습니다(성능 경고).
+c:\users\juno\documents\github\designproject_b\designprojectb_3\ddoseogwan\ddoseogwan\app.cpp(57): warning C4018: '<': signed 또는 unsigned가 일치하지 않습니다.
+  코드를 생성하고 있습니다...
+c:\users\juno\documents\github\designproject_b\designprojectb_3\ddoseogwan\ddoseogwan\app.cpp(36): warning C4700: 초기화되지 않은 'num' 지역 변수를 사용했습니다.
+c:\users\juno\documents\github\designproject_b\designprojectb_3\ddoseogwan\ddoseogwan\bst.cpp(50): warning C4715: 'BST::search': 모든 제어 경로에서 값을 반환하지는 않습니다.
+c:\users\juno\documents\github\designproject_b\designprojectb_3\ddoseogwan\ddoseogwan\bst.cpp(31): warning C4700: 초기화되지 않은 'temp' 지역 변수를 사용했습니다.
+c:\users\juno\documents\github\designproject_b\designprojectb_3\ddoseogwan\ddoseogwan\binarysearch.cpp(20): error C4716: 'BinarySearch::search': 값을 반환해야 합니다.
+c:\users\juno\documents\github\designproject_b\designprojectb_3\ddoseogwan\ddoseogwan\hash.cpp(20): error C4716: 'Hash::search': 값을 반환해야 합니다.
+  컴파일하고 있습니다...
+  main.cpp
+  WithIndex.cpp
+  NoIndex.cpp
+  코드를 생성하고 있습니다...
+  건너뛰고 있습니다... (관련된 변경 내용 없음)
+  TextReader.cpp
+  FileReader.cpp
+  Bucket.cpp
+  BinaryReader.cpp

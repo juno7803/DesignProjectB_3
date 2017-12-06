@@ -167,6 +167,7 @@
     <ClCompile Include="Bucket.cpp" />
     <ClCompile Include="FileReader.cpp" />
     <ClCompile Include="Hash.cpp" />
+    <ClCompile Include="main.cpp" />
     <ClCompile Include="NoIndex.cpp" />
     <ClCompile Include="SearchAlgorithm.cpp" />
     <ClCompile Include="TextReader.cpp" />

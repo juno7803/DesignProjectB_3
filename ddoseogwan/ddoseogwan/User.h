@@ -8,7 +8,11 @@ class User
 {
 public:
 	User();
+	User(int _id, string _pw, string _name, vector<int> _bl);
 	~User();
+	int getid();
+	string getpw();
+	string getname();
 
 private:
 	int id;

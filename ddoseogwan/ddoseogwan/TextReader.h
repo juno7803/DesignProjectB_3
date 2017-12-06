@@ -8,6 +8,6 @@ public:
 	~TextReader();
 
 	void readUserFile(vector<User*>* _userList);
-	void readBookFile(vector<Book*>* _userList);
+	void readBookFile(vector<Book*>* _bookList);
 };
 

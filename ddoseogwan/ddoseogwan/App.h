@@ -4,6 +4,9 @@
 #include "BinarySearch.h"
 #include "BinaryReader.h"
 #include "TextReader.h"
+#include <iostream>
+using namespace std;
+
 class App
 {
 public:
@@ -11,6 +14,7 @@ public:
 	~App();
 
 	void run();
+	void startmenu();
 
 private:
 	void login(); // 1명 로그인
@@ -20,10 +24,14 @@ private:
 	void borrowBook();
 	void returnBook();
 	void buildIndex(); // 어떤 인덱스를 쓰겠다고 사용자가 선택하도록 하는 함수로 만들었다고 함
+	//여기서 전략패턴 쓴다음!
+	//searchBook에선 sa->search만 하면 될듯.
 
 	FileReader* fr;
 	SearchAlgorithm* sa;
 
 	vector<User*> userList;
 	vector<Book*> bookList;
+	///
+	User* loginedUser;
 };
