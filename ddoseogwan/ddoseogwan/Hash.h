@@ -1,6 +1,8 @@
 #pragma once
 #include "WithIndex.h"
 #include "Bucket.h"
+#include <cstdlib>
+#include <string>
 
 // 인덱스 사용 검색 알고리즘
 // 책의 수만큼 Bucket 생성
@@ -10,8 +12,8 @@ class Hash :
 public:
 	Hash();
 	~Hash();
-
 	void buildIndex();
+	// bookList에 저장된 책들을 책 이름을 키로 사용하여 hashTable에 저장함
 	vector<Book*>* search(string key);
 
 private:

@@ -7,6 +7,7 @@ class Bucket
 public:
 	Bucket();
 	~Bucket();
+	vector<Book*> getbooks();
 
 private:
 	vector<Book*> books;
