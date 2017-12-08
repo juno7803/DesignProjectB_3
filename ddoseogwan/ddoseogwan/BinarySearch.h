@@ -1,5 +1,7 @@
 #pragma once
 #include "NoIndex.h"
+#include <iostream>
+using namespace std;
 
 // (1) 직접 접근 가능
 // (2) 정렬되어 있어야 함
@@ -9,10 +11,11 @@ class BinarySearch :
 {
 public:
 	BinarySearch();
-	BinarySearch(vector<Book*>* _bookList); // 생성자에서 정렬시켜야 함
-											// 여러개 찾는 경우도 생각해 봐야함. 반으로 나눴을때 왼쪽에서도 찾고 오른쪽에서도 찾고. 정렬되어 있으니까 알수있을것.
+	BinarySearch(vector<Book*>* _bookList);
+	// 생성자에서 정렬시켜야 함
+	// 여러개 찾는 경우도 생각해 봐야함. 
+	// 반으로 나눴을때 왼쪽에서도 찾고 오른쪽에서도 찾고! 정렬되어 있으니까 알 수 있을것.
 	~BinarySearch();
 
 	vector<Book*>* search(string key);
 };
-

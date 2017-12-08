@@ -1,10 +1,7 @@
 #include "App.h"
 
-
-
 App::App()
 {
-	sa->setblist(&bookList);
 }
 
 
@@ -34,6 +31,7 @@ void App::startmenu()
 		int num;
 		cout << "1. 도서 검색 및 대여" << endl;
 		cout << "2. 도서 반납" << endl;
+		cin >> num;
 		switch (num)
 		{
 		case 1:
@@ -129,11 +127,11 @@ void App::buildIndex()
 	switch (command)
 	{
 	case 1:
-		sa = new BST();
+		sa = new BST(&bookList);
 		((BST*)sa)->buildIndex();
 		break;
 	case 2:
-		sa = new Hash();
+		sa = new Hash(&bookList);
 		((Hash*)sa)->buildIndex();
 		break;
 	case 3:

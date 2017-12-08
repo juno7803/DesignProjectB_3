@@ -8,6 +8,11 @@ Hash::Hash()
 	}
 }
 
+Hash::Hash(vector<Book*>* booklist)
+{
+	_bookList = booklist;
+}
+
 Hash::~Hash()
 {
 }
@@ -27,6 +32,11 @@ vector<Book*>* Hash::search(string key)
 // 여기선 버켓 하나만 찾으면 된다! (이름이 중복된것도 같이 가져옴)
 {
 	return &((hashTable.at(hashFunction(key)))->getbooks());
+}
+
+void Hash::setblist(vector<Book*>* booklist)
+{
+	_bookList = booklist;
 }
 
 int Hash::hashFunction(string key)

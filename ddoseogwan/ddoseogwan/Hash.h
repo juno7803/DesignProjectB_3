@@ -11,10 +11,12 @@ class Hash :
 {
 public:
 	Hash();
+	Hash(vector<Book*>* booklist);
 	~Hash();
 	void buildIndex();
 	// bookList에 저장된 책들을 책 이름을 키로 사용하여 hashTable에 저장함
 	vector<Book*>* search(string key);
+	void setblist(vector<Book*>* booklist);
 
 private:
 	vector<Bucket*> hashTable; // Bucket의 집합 -> Bucket이 실제 데이터를 담는 곳

@@ -9,6 +9,7 @@ class BST :
 {
 public:
 	BST();
+	BST(vector<Book*>* booklist);
 	~BST();
 
 	void buildIndex();

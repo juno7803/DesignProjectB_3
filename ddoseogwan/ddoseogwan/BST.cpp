@@ -7,6 +7,11 @@ BST::BST()
 	root = nullptr;
 }
 
+BST::BST(vector<Book*>* booklist)
+{
+	_bookList = booklist;
+}
+
 
 BST::~BST()
 {
