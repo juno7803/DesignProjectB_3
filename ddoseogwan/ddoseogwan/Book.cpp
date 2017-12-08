@@ -20,12 +20,32 @@ Book::~Book()
 {
 }
 
-void Book::setBorrowerID(int _borrowerID)
-{
-	borrowerID = _borrowerID;
-}
-
 string Book::Getname()
 {
 	return bookName;
+}
+
+string Book::Getauthor()
+{
+	return author;
+}
+
+int Book::Getyear()
+{
+	return publishedYear;
+}
+
+int Book::Getbookid()
+{
+	return 0;
+}
+
+void Book::SetBorrowerID(int bid)
+{
+	borrowerID = bid;
+}
+
+void Book::SetBorrowed(bool ib)
+{
+	isBorrowed = ib;
 }

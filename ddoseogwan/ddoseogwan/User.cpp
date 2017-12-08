@@ -36,3 +36,8 @@ string User::getname()
 {
 	return name;
 }
+
+vector<int> User::GetborrowingList()
+{
+	return borrowingList;
+}

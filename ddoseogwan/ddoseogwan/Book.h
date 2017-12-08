@@ -9,9 +9,14 @@ public:
 	Book();
 	Book(int _id, string _bookname, string _author, int _pyear, bool _isborrowed);
 	~Book();
-	void setBorrowerID(int _borrowerID);
 
 	string Getname();
+	string Getauthor();
+	int Getyear();
+	int Getbookid();
+
+	void SetBorrowerID(int bid);
+	void SetBorrowed(bool ib);
 
 private:
 	int id;

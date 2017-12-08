@@ -13,6 +13,7 @@ public:
 	int getid();
 	string getpw();
 	string getname();
+	vector<int> GetborrowingList();
 
 private:
 	int id;
