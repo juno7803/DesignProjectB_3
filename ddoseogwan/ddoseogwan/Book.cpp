@@ -40,6 +40,16 @@ int Book::Getbookid()
 	return 0;
 }
 
+bool Book::Getisborrowed()
+{
+	return isBorrowed;
+}
+
+int Book::GetborrwedID()
+{
+	return borrowerID;
+}
+
 void Book::SetBorrowerID(int bid)
 {
 	borrowerID = bid;

@@ -14,6 +14,8 @@ public:
 	string Getauthor();
 	int Getyear();
 	int Getbookid();
+	bool Getisborrowed();
+	int GetborrwedID();
 
 	void SetBorrowerID(int bid);
 	void SetBorrowed(bool ib);

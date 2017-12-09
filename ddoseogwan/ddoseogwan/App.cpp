@@ -120,8 +120,48 @@ void App::readFile(bool isBinary)
 	}
 }
 
-void App::writeFile(bool isBinary)
+void App::writeFile()
+// UserT,UserB,BookT는 아예 첨부터 다시 써주고
+// BookB만 바뀔때마다 써주면 된다!
 {
+	ofstream ofs("UserText.txt");
+	for (int i = 0; i < userList.size(); i++)
+	{
+		ofs << userList[i]->getid() << "\t";
+		ofs << userList[i]->getpw() << "\t";
+		ofs << userList[i]->getname() << "\t";
+		ofs << userList[i]->GetborrowingList().size() << "\t";
+		for (int j = 0; j < userList[i]->GetborrowingList().size(); j++)
+		{
+			if (j == userList[i]->GetborrowingList().size())
+				ofs << userList[i]->GetborrowingList()[j] << "\n";
+			ofs << userList[i]->GetborrowingList()[j] << "\t";
+		}
+	}
+	ofs.close();
+	// Write UserText
+
+	ofstream ofs2("UserBinary.dat", ios::binary);
+
+	ofstream ofs3("BookText.txt");
+	for (int i = 0; i < bookList.size(); i++)
+	{
+		ofs << bookList[i]->Getbookid() << "\t";
+		ofs << bookList[i]->Getname() << "\t";
+		ofs << bookList[i]->Getauthor() << "\t";
+		ofs << bookList[i]->Getyear() << "\t";
+		if (bookList[i]->Getisborrowed() == true)
+		{
+			ofs << bookList[i]->Getisborrowed() << "\t";
+			ofs << bookList[i]->GetborrwedID() << "\n";
+		}
+		// 대여자가 있는 경우
+		else
+		{
+			ofs << bookList[i]->Getisborrowed() << "\n";
+		}
+		// 대여자가 없으면 대여자 ID는 저장하지 않는다.
+	}
 }
 
 void App::searchBook()
@@ -141,7 +181,7 @@ void App::searchBook()
 	int year;
 	vector<Book*>tempResult2; // 저자명으로 추가 검색
 	vector<Book*>finalResult; // 출판년도로 추가 검색
-	
+
 	for (int i = 0; i < tempResult1.size(); i++)
 	{
 		if (author == tempResult1[i]->Getauthor())
@@ -180,7 +220,7 @@ void App::searchBook()
 			borrowBook(finalResult);
 			break;
 		case 2:
-			return;  
+			return;
 		}
 	}
 }
@@ -195,7 +235,7 @@ void App::borrowBook(vector<Book*> searchbook)
 		cout << "저자명: " << searchbook[i]->Getauthor();
 		cout << "출판 연도: " << searchbook[i]->Getyear() << endl;
 	}
-	int num = GetCommand(searchbook.size());
+	int num = GetCommand(searchbook.size()) + 1;
 	if (loginedUser->GetborrowingList().size() > 5)
 	{
 		cout << "더 이상 대여할 수 없습니다! 한번에 다섯권 이상 대여하실 수 없습니다." << endl;
@@ -208,7 +248,32 @@ void App::borrowBook(vector<Book*> searchbook)
 
 void App::returnBook()
 {
-	loginedUser->
+	vector<Book*>* BorrowedBook; // 여기 주소를 담아야 이 임시벡터에서 대여여부 변수를 바꿔도 바뀜
+	for (int i = 0; i < bookList.size(); i++)
+	{
+		if (loginedUser->GetborrowingList()[i] == bookList[i]->Getbookid())
+		{
+			BorrowedBook->push_back(bookList[i]);
+		}
+	}
+	cout << loginedUser->getname() << "님의 대여목록" << endl;
+	for (int i = 0; i < BorrowedBook->size(); i++)
+	{
+		cout << i + 1 << ". ";
+		cout << "책 이름: " << BorrowedBook->at(i)->Getname() << endl;
+		cout << "저자명: " << BorrowedBook->at(i)->Getauthor() << endl;
+		cout << "출판 연도: " << BorrowedBook->at(i)->Getyear() << endl << endl;
+	}
+	int num = GetCommand(BorrowedBook->size()) + 1;
+	for (int j = 0; j < BorrowedBook->size(); j++)
+	{
+		if (loginedUser->GetborrowingList().at(num-1) == BorrowedBook->at(j)->Getbookid())
+		{
+			loginedUser->GetborrowingList().erase(loginedUser->GetborrowingList().begin() + num - 1); // 해당 유저의 대여목록에서 제외한다.
+			BorrowedBook->at(j)->SetBorrowerID(-1); // 반납한 책의 대여자ID는 -1로 한다.
+			BorrowedBook->at(j)->SetBorrowed(false); // 반납한 책의 대여여부는 false로 바꾼다.
+		}
+	}
 }
 
 void App::buildIndex()

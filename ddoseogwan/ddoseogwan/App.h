@@ -21,7 +21,7 @@ public:
 private:
 	void login(); // 1명 로그인
 	void readFile(bool isBinary);
-	void writeFile(bool isBinary); // Book Binary 파일에서는 아예 지우고 다시쓰면 안됨!! 업데이트할 부분만 고쳐쓴다
+	void writeFile(); // Book Binary 파일에서는 아예 지우고 다시쓰면 안됨!! 업데이트할 부분만 고쳐쓴다
 	void searchBook();
 	void borrowBook(vector<Book*> searchbook);
 	void returnBook();
