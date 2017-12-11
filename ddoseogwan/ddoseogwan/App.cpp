@@ -163,11 +163,7 @@ void App::writeFile()
 	ofs.close();
 	// Write UserText
 
-	ofstream ofs2("UserBinary.dat", ios::binary | ios::out);
-	string tab = "\t"; // \t,\n 넣어야 하는지? (개행문자)
-	//ofs2.write(tab.c_str(), tab.size()); // tab
-	string enter = "\n";
-	//ofs2.write(enter.c_str(),enter.size()); // enter
+	ofstream ofs2("UserBinary.dat", ios::binary);
 	for (int i = 0; i < userList.size(); i++)
 	{
 		int id = userList[i]->getid();
@@ -190,6 +186,7 @@ void App::writeFile()
 		}
 	}
 	ofs2.close();
+	// Write UserBinary
 
 	ofstream ofs3("BookText.txt");
 	for (int i = 0; i < bookList.size(); i++)
@@ -211,6 +208,7 @@ void App::writeFile()
 		// 대여자가 없으면 대여자 ID는 저장하지 않는다.
 	}
 	ofs3.close();
+	// Write BookText
 }
 
 void App::searchBook()
@@ -320,6 +318,34 @@ void App::borrowBook(vector<Book*> searchbook)
 		cout << "─────────────────" << endl;
 		return;
 	}
+	/// Bookbinary Code
+	fstream fs("BookBinary.dat", ios::binary | ios::in | ios::out); // 바이너리/읽기/쓰기
+	int BookID;
+	int BNameLength;
+	int AuthorLength;
+	bool Borrow = true; // 대여
+	int BorrowID = loginedUser->getid(); // 대여자 id
+	for (int i = 0; i < bookList.size(); i++)
+	{
+		fs.read((char*)&BookID, sizeof(int)); // 책의 아이디를 읽어옴(대여할 책과 비교하기 위함)
+		fs.read((char*)&BNameLength, sizeof(int)); // 책 이름 길이만큼 읽어서
+		fs.seekg(BNameLength, ios::cur); // seekg함수로 건너뜀 (책 이름은 BNameLength만큼의 길이이며, 한문자는 char에 해당하므로 1byte이다. 따라서 *1 해주는것과 같다)
+		fs.read((char*)&AuthorLength, sizeof(int)); // 저자 이름 길이 읽어서
+		fs.seekg(AuthorLength + sizeof(int), ios::cur); // 저자이름+출판연도 건너뜀
+
+		if (BookID == searchbook[num]->Getbookid())
+			// 대여할 책에 해당
+			// 현재위치에 대여여부와 대여자 아이디 덮어쓴다!
+		{
+			fs.write((char*)&Borrow, sizeof(bool)); // 대여했다 : true를 쓴다
+			fs.write((char*)&BorrowID, sizeof(int)); // 대여자 아이디 : 로그인한 유저의 ID를 쓴다
+		}
+		else
+		{
+			fs.seekg(sizeof(bool) + sizeof(int), ios::cur);
+			// 찾던 도서가 아닐 경우 대여여부(bool) + 대여자아이디(int) 건너뜀
+		}
+	}
 
 	//loginedUser->GetborrowingList().push_back(searchbook[num]->Getbookid()); // 로그인한 유저의 대여책 리스트에 저장
 	for (int j = 0; j < bookList.size(); j++)
@@ -334,12 +360,9 @@ void App::borrowBook(vector<Book*> searchbook)
 	cout << "책 대여가 완료되었습니다." << endl;
 	cout << "─────────────────" << endl;
 	system("pause");
+
 	return;
 
-
-	/// 임시벡터쓰면 대여여부 표시가 안되는듯 -> 직접 접근하여 변경하기
-
-	/// 이제 파일입출력 코드
 }
 
 void App::returnBook()
@@ -381,6 +404,37 @@ void App::returnBook()
 	cout << "반납할 도서를 선택하세요" << endl;
 	int num = GetCommand(BorrowedBook.size()) - 1;
 
+	/// Bookbinary Code
+	fstream fs("BookBinary.dat", ios::binary | ios::in | ios::out); // 바이너리/읽기/쓰기
+	int BookID;
+	int BNameLength;
+	int AuthorLength;
+	bool returned = false;
+	int returnedID = -1;
+	for (int i = 0; i < bookList.size(); i++)
+	{
+		fs.read((char*)&BookID, sizeof(int));
+		fs.read((char*)&BNameLength, sizeof(int)); // 책 이름 길이만큼 읽어서
+		fs.seekg(BNameLength, ios::cur); // seekg함수로 건너뜀
+		fs.read((char*)&AuthorLength, sizeof(int)); // 저자 이름 길이 읽어서
+		fs.seekg(AuthorLength + sizeof(int), ios::cur); // 저자이름+출판연도 건너뜀
+
+		/// 디버그해서 read 함수써도 curpointer가 이동하는지 확인
+		if (BookID == BorrowedBook[num]->Getbookid())
+		// 반납에 해당하는 경우임
+		// 현재위치에 대여여부와 대여자 아이디 덮어쓴다!
+		{
+			fs.write((char*)&returned, sizeof(bool));
+			fs.write((char*)&returnedID, sizeof(int));
+		}
+		else
+		{
+			fs.seekg(sizeof(bool) + sizeof(int), ios::cur);
+			// 찾던 도서가 아닐 경우 대여여부(bool) + 대여자아이디(int) 건너뜀
+		}
+	}
+
+	/// bookList에서 해당 도서의 레코드 수정
 	for (int i = 0; i < bookList.size(); i++)
 	{
 		if (bookList[i]->Getbookid() == BorrowedBook[num]->Getbookid())
@@ -399,20 +453,10 @@ void App::returnBook()
 			// 책의 데이터를 수정한다.
 		}
 	}
-	//for (int j = 0; j < BorrowedBook.size(); j++)
-	//{
-	//	if (loginedUser->GetborrowingList().at(num-1) == BorrowedBook.at(j)->Getbookid())
-	//	{
-	//		loginedUser->GetborrowingList().erase(loginedUser->GetborrowingList().begin() + num - 1); // 해당 유저의 대여목록에서 제외한다.
-	//		/// 임시벡터쓰면 대여여부 표시가 안되는듯 -> 직접 접근하여 변경하기
-	//		BorrowedBook.at(j)->SetBorrowerID(-1); // 반납한 책의 대여자ID는 -1로 한다. // 이렇게 해도 원래 데이터에 영향을 주는지 확인
-	//		BorrowedBook.at(j)->SetBorrowed(false); // 반납한 책의 대여여부는 false로 바꾼다.
-	//	}
-	//}
+
 	cout << "도서 반납을 완료하였습니다." << endl;
 	cout << "─────────────────" << endl;
 	system("pause");
-
 }
 
 void App::buildIndex()
