@@ -14,7 +14,10 @@ public:
 	BSTNode* getleft();
 	BSTNode* getright();
 
-	const bool operator<(string& key) const;
+	void setleft(BSTNode* l);
+	void setright(BSTNode* r);
+	void setbooks(Book* b);
+	void setkey(string k);
 
 private:
 	string key;

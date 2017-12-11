@@ -44,7 +44,7 @@ void TextReader::readBookFile(vector<Book*>* _bookList)
 		if (borrow == 1)
 		{
 			ifs >> borrowid;
-			temp->setBorrowerID(borrowid);
+			temp->SetBorrowerID(borrowid);
 		}
 		_bookList->push_back(temp);
 	}

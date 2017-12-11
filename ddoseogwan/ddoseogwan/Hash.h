@@ -15,7 +15,7 @@ public:
 	~Hash();
 	void buildIndex();
 	// bookList에 저장된 책들을 책 이름을 키로 사용하여 hashTable에 저장함
-	vector<Book*>* search(string key);
+	vector<Book*> search(string key);
 	void setblist(vector<Book*>* booklist);
 
 private:

@@ -4,6 +4,8 @@
 
 BSTNode::BSTNode()
 {
+	left = nullptr;
+	right = nullptr;
 }
 
 BSTNode::BSTNode(string _key, BSTNode * _left, BSTNode * _right)
@@ -39,8 +41,22 @@ BSTNode * BSTNode::getright()
 	return right;
 }
 
-const bool BSTNode::operator<(string& key) const
+void BSTNode::setleft(BSTNode * l)
 {
-	if (this->key < key) return true;
-	else return false;
+	left = l;
+}
+
+void BSTNode::setright(BSTNode * r)
+{
+	right = r;
+}
+
+void BSTNode::setbooks(Book * b)
+{
+	books.push_back(b);
+}
+
+void BSTNode::setkey(string k)
+{
+	key = k;
 }

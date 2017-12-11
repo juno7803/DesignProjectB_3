@@ -17,5 +17,5 @@ public:
 	// 반으로 나눴을때 왼쪽에서도 찾고 오른쪽에서도 찾고! 정렬되어 있으니까 알 수 있을것.
 	~BinarySearch();
 
-	vector<Book*>* search(string key);
+	vector<Book*> search(string key);
 };

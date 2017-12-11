@@ -77,11 +77,11 @@ void BinaryReader::readBookFile(vector<Book*>* _bookList)
 		Book* temp = new Book(id, bname, author, year, isborrowed);
 		if (isborrowed == true)
 		{
-			temp->setBorrowerID(borrowerID);
+			temp->SetBorrowerID(borrowerID);
 		}
 		else if (isborrowed == false)
 		{
-			temp->setBorrowerID(-1); // 대여자가 없는경우 아이디는 -1로 한다.
+			temp->SetBorrowerID(-1); // 대여자가 없는경우 아이디는 -1로 한다.
 		}
 		_bookList->push_back(temp);
 		continue;

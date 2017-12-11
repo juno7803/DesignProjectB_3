@@ -35,9 +35,9 @@ BinarySearch::~BinarySearch()
 {
 }
 
-vector<Book*>* BinarySearch::search(string key)
+vector<Book*> BinarySearch::search(string key)
 {
-	vector<Book*>* temp;
+	vector<Book*> temp;
 	int first = 0;
 	int last = _bookList->size();
 	int mid;
@@ -57,17 +57,17 @@ vector<Book*>* BinarySearch::search(string key)
 	}
 	else
 	{
-		temp->push_back(_bookList->at(mid));
+		temp.push_back(_bookList->at(mid));
 		//찾은 위치가 mid 임!
 		for (int i = 0; i < mid; i++)
 		{
 			if (key == _bookList->at(i)->Getname())
-				temp->push_back(_bookList->at(i));
+				temp.push_back(_bookList->at(i));
 		}
 		for (int i = mid; i < _bookList->size(); i++)
 		{
 			if (key == _bookList->at(i)->Getname())
-				temp->push_back(_bookList->at(i));
+				temp.push_back(_bookList->at(i));
 		}
 		return temp;
 	}

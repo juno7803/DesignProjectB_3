@@ -43,11 +43,10 @@ void App::run()
 	while (1)
 	{
 		//int num = Getcommand() 식으로 바꾸자
-		int num = GetCommand(1);
 		cout << "파일 읽기 모드 설정" << endl;
 		cout << "1. Binary 모드" << endl;
 		cout << "0. Text 모드" << endl;
-		cin >> num;
+		int num = GetCommand(1);
 		readFile(num);
 		login();
 	}
@@ -166,36 +165,41 @@ void App::writeFile()
 
 void App::searchBook()
 {
+	buildIndex();
 	string key;
 	cout << "책 이름 입력: ";
 	cin >> key;
-	vector<Book*>tempResult1;
-
-	if (sa->search(key) == nullptr)
+	vector<Book*> tempResult1;
+	tempResult1 = (sa->search(key)); // 책 이름으로 검색 결과
+	if (tempResult1.size() == 0)
 	{
 		cout << "찾는 도서가 없습니다." << endl;
+		return;
 	}
-	tempResult1 = *(sa->search(key)); // 책 이름으 로 검색
 
 	string author;
 	int year;
-	vector<Book*>tempResult2; // 저자명으로 추가 검색
-	vector<Book*>finalResult; // 출판년도로 추가 검색
-
+	vector<Book*> tempResult2; // 저자명으로 추가 검색
+	vector<Book*> finalResult; // 출판년도로 추가 검색
+	
+	cout << "찾는 책의 저자명: ";
+	cin >> author;
 	for (int i = 0; i < tempResult1.size(); i++)
 	{
-		if (author == tempResult1[i]->Getauthor())
+		if (author == tempResult1.at(i)->Getauthor())
 		{
-			tempResult2.push_back(tempResult1[i]);
+			tempResult2.push_back(tempResult1.at(i));
 		}
 	}
 	// 저자명 검색
 
+	cout << "찾는 책의 출판년도: ";
+	cin >> year;
 	for (int i = 0; i < tempResult2.size(); i++)
 	{
-		if (year == tempResult2[i]->Getyear())
+		if (year == tempResult2.at(i)->Getyear())
 		{
-			finalResult.push_back(tempResult2[i]);
+			finalResult.push_back(tempResult2.at(i));
 		}
 	}
 	// 출판년도 검색
@@ -204,9 +208,9 @@ void App::searchBook()
 		for (int i = 0; i < finalResult.size(); i++)
 		{
 			cout << i << ". ";
-			cout << "책 이름: " << finalResult[i]->Getname();
-			cout << "저자명: " << finalResult[i]->Getauthor();
-			cout << "출판 연도: " << finalResult[i]->Getyear() << endl;
+			cout << "책 이름: " << finalResult.at(i)->Getname();
+			cout << "저자명: " << finalResult.at(i)->Getauthor();
+			cout << "출판 연도: " << finalResult.at(i)->Getyear() << endl;
 		}
 		cout << endl;
 		cout << "1. 도서 대여" << endl;

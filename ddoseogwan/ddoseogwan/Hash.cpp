@@ -28,10 +28,10 @@ void Hash::buildIndex()
 	}
 }
 
-vector<Book*>* Hash::search(string key)
+vector<Book*> Hash::search(string key)
 // 여기선 버켓 하나만 찾으면 된다! (이름이 중복된것도 같이 가져옴)
 {
-	return &((hashTable.at(hashFunction(key)))->getbooks());
+	return ((hashTable.at(hashFunction(key)))->getbooks());
 }
 
 void Hash::setblist(vector<Book*>* booklist)
@@ -41,10 +41,10 @@ void Hash::setblist(vector<Book*>* booklist)
 
 int Hash::hashFunction(string key)
 {
-	int temp;
+	int temp = 0;
 	for (int i = 0; i < key.length(); i++)
 	{
-		temp += stoi(key.substr(i, i + 1)); // 한자리씩 읽어오기
+		temp += stoi(key.substr(i,i+1)); // 한자리씩 읽어오기
 		// atoi 사용하려면 c_str함수를 사용해야 함
 	}
 	return temp%(_bookList->size());
