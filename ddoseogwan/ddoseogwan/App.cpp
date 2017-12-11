@@ -207,7 +207,7 @@ void App::searchBook()
 	{
 		for (int i = 0; i < finalResult.size(); i++)
 		{
-			cout << i << ". ";
+			cout << i+1 << ". ";
 			cout << "책 이름: " << finalResult.at(i)->Getname();
 			cout << "저자명: " << finalResult.at(i)->Getauthor();
 			cout << "출판 연도: " << finalResult.at(i)->Getyear() << endl;
@@ -234,7 +234,7 @@ void App::borrowBook(vector<Book*> searchbook)
 	cout << "대여할 책 선택: " << endl;
 	for (int i = 0; i < searchbook.size(); i++)
 	{
-		cout << i << ". ";
+		cout << i+1 << ". ";
 		cout << "책 이름: " << searchbook[i]->Getname();
 		cout << "저자명: " << searchbook[i]->Getauthor();
 		cout << "출판 연도: " << searchbook[i]->Getyear() << endl;

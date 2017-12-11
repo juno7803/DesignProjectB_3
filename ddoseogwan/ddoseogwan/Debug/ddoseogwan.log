@@ -1,4 +1,11 @@
-﻿  BST.cpp
-c:\users\juno\documents\github\designproject_b\designprojectb_3\ddoseogwan\ddoseogwan\bst.cpp(21): warning C4018: '<': signed 또는 unsigned가 일치하지 않습니다.
+﻿  Hash.cpp
+c:\users\juno\documents\github\designproject_b\designprojectb_3\ddoseogwan\ddoseogwan\hash.cpp(5): warning C4018: '<': signed 또는 unsigned가 일치하지 않습니다.
+c:\users\juno\documents\github\designproject_b\designprojectb_3\ddoseogwan\ddoseogwan\hash.cpp(14): warning C4018: '<': signed 또는 unsigned가 일치하지 않습니다.
+c:\users\juno\documents\github\designproject_b\designprojectb_3\ddoseogwan\ddoseogwan\hash.cpp(29): warning C4018: '<': signed 또는 unsigned가 일치하지 않습니다.
+c:\users\juno\documents\github\designproject_b\designprojectb_3\ddoseogwan\ddoseogwan\hash.cpp(48): warning C4018: '<': signed 또는 unsigned가 일치하지 않습니다.
+  코드를 생성하고 있습니다...
+  건너뛰고 있습니다... (관련된 변경 내용 없음)
+  main.cpp
+  App.cpp
   ddoseogwan.vcxproj -> C:\Users\Juno\Documents\GitHub\DesignProject_B\DesignProjectB_3\ddoseogwan\Debug\ddoseogwan.exe
   ddoseogwan.vcxproj -> C:\Users\Juno\Documents\GitHub\DesignProject_B\DesignProjectB_3\ddoseogwan\Debug\ddoseogwan.pdb (Full PDB)

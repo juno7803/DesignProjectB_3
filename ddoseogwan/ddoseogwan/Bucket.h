@@ -8,6 +8,7 @@ public:
 	Bucket();
 	~Bucket();
 	vector<Book*> getbooks();
+	void setbook(Book* b);
 
 private:
 	vector<Book*> books;
