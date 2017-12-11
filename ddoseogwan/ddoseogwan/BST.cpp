@@ -1,7 +1,5 @@
 #include "BST.h"
 
-
-
 BST::BST()
 {
 	root = nullptr;
@@ -10,6 +8,7 @@ BST::BST()
 BST::BST(vector<Book*>* booklist)
 {
 	_bookList = booklist;
+	root = nullptr;
 }
 
 
@@ -21,67 +20,73 @@ void BST::buildIndex()
 {
 	for (int i = 0; i < _bookList->size(); i++)
 	{
-		insert(_bookList->at(i));
+		if (root == nullptr) // 루트는 따로 미리 설정
+		{
+			root = new BSTNode;
+			root->setkey(_bookList->at(i)->Getname());
+			root->setbooks(_bookList->at(i));
+		}
+		else
+		{
+			insert(root, _bookList->at(i));
+		}
 	}
 }
 
-vector<Book*>* BST::search(string key)
-// 루트를 계속 바꿔주면서 재귀탐색
+vector<Book*> BST::search(string key)
+// 현재 노드를 계속 바꿔주면서 재귀탐색
 // 노드에 이름이 같은책이 여러개 들어있을수 있으므로, 벡터자체를 반환하도록 한다
 {
-	if (root->getkey() == key)
+	vector<Book*> result;
+	BSTNode* Cur = this->root;
+	while (1)
 	{
-		return &(root->getbooks());
-	}
-	// 종료조건 1 - 탐색중인 노드와 값이 같은 경우
-
-	else if(root->getleft() == nullptr && root->getright() == nullptr)
-	{
-		return nullptr;
-	}
-	// 종료조건2 - 자식 노드가 없는 경우(찾는 값이 없는경우)
-
-	else
-	{
-		if (root->getkey() > key)
+		if (Cur->getkey() == key)
 		{
-			root = root->getleft();
-			search(key);
+			return result = Cur->getbooks(); // 종료조건 1 - 일치하는 키 값이 있는 경우
 		}
-		else if (root->getkey() < key)
+		if (Cur->getkey().compare(key) > 0)
 		{
-			root = root->getright();
-			search(key);
+			if (Cur->getleft() == nullptr)
+				return result; // 종료조건 2 - 해당 위치에 자손이 없는 경우
+			Cur = Cur->getleft();
+		}
+		else if (Cur->getkey().compare(key) < 0)
+		{
+			if (Cur->getright() == nullptr)
+				return result; // 종료조건 2 - 해당 위치에 자손이 없는 경우
+			Cur = Cur->getright();
 		}
 	}
-	// 종료조건 1 or 2가 될때까지 root를 바꿔가며 재귀호출
 }
+//http://robodream.tistory.com/201 이진탐색트리 정말 쉽게 구현..
 
-void BST::insert(Book* book)
+void BST::insert(BSTNode* current, Book* book)
 {
-	if (isEmpty()) // root가 nullptr 일 경우 - 새로운 노드를 추가시켜줘야 한다.(빈 노드를 채워줘야 한다.)
+	if (current->getkey() == book->Getname())
 	{
-		BSTNode* newnode = new BSTNode(book->Getname(), nullptr, nullptr);
-		newnode->getbooks().push_back(book);
-		root = newnode;
+		current->setbooks(book);
 	}
-	else
+	else if (current->getkey().compare(book->Getname()) > 0) // string 사전순 비교 함수 compare
 	{
-		if (root->getkey() > book->Getname())
+		if (current->getleft() == nullptr)
 		{
-			root = root->getleft();
-			insert(book);
+			BSTNode* left = new BSTNode;
+			left->setkey(book->Getname());
+			current->setleft(left);
 		}
-		else if (root->getkey() < book->Getname())
+		insert(current->getleft(), book);
+	}
+	else if (current->getkey().compare(book->Getname()) < 0)
+	{
+		if (current->getright() == nullptr)
 		{
-			root = root->getright();
-			insert(book);
+			BSTNode* right = new BSTNode;
+			right->setkey(book->Getname());
+			//right->setbooks(book);
+			current->setright(right);
 		}
-		else if (root->getkey() == book->Getname())
-		{
-			root->getbooks().push_back(book);
-			insert(book);
-		}
+		insert(current->getright(), book);
 	}
 }
 
