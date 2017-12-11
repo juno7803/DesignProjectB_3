@@ -64,7 +64,7 @@ vector<Book*> BinarySearch::search(string key)
 			if (key == _bookList->at(i)->Getname())
 				temp.push_back(_bookList->at(i));
 		}
-		for (int i = mid; i < _bookList->size(); i++)
+		for (int i = mid+1; i < _bookList->size(); i++)
 		{
 			if (key == _bookList->at(i)->Getname())
 				temp.push_back(_bookList->at(i));

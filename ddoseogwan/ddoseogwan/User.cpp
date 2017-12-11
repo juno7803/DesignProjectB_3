@@ -41,3 +41,8 @@ vector<int> User::GetborrowingList()
 {
 	return borrowingList;
 }
+
+void User::setborrowingList(int id)
+{
+	borrowingList.push_back(id);
+}

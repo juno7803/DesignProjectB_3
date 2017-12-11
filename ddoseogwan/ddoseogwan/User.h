@@ -15,6 +15,8 @@ public:
 	string getname();
 	vector<int> GetborrowingList();
 
+	void setborrowingList(int id);
+
 private:
 	int id;
 	string password;

@@ -37,7 +37,7 @@ int Book::Getyear()
 
 int Book::Getbookid()
 {
-	return 0;
+	return id;
 }
 
 bool Book::Getisborrowed()

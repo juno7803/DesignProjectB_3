@@ -42,13 +42,27 @@ void App::run()
 {
 	while (1)
 	{
-		//int num = Getcommand() ½ÄÀ¸·Î ¹Ù²ÙÀÚ
+		cout << "¦£¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¤" << endl;
+		cout << "¦¢                              ¦¢" << endl;
+		cout << "¦¢     ¢º   DDoseogwan   ¢¸     ¦¢" << endl;
+		cout << "¦¢                              ¦¢" << endl;
+		cout << "¦¦¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¥" << endl;
+		cout << "¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡" << endl;
 		cout << "ÆÄÀÏ ÀÐ±â ¸ðµå ¼³Á¤" << endl;
 		cout << "1. Binary ¸ðµå" << endl;
-		cout << "0. Text ¸ðµå" << endl;
-		int num = GetCommand(1);
-		readFile(num);
-		login();
+		cout << "2. Text ¸ðµå" << endl;
+		cout << "0. ÇÁ·Î±×·¥ Á¾·á" << endl;
+		cout << "¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡" << endl;
+		int num = GetCommand(2);
+		if (num == 0)
+		{
+			return;
+		}
+		else
+		{
+			readFile(num);
+			login();
+		}
 	}
 }
 
@@ -56,9 +70,20 @@ void App::startmenu()
 {
 	while (1)
 	{
+		system("cls");
+		cout << "¦£¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¤" << endl;
+		cout << "¦¢                              ¦¢" << endl;
+		cout << "¦¢     ¢º   DDoseogwan   ¢¸     ¦¢" << endl;
+		cout << "¦¢                              ¦¢" << endl;
+		cout << "¦¦¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¥" << endl;
+		cout << "¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡" << endl;
+		cout << "¢¹" << loginedUser->getname() << "´Ô È¯¿µÇÕ´Ï´Ù!" << endl;
+		cout << "¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡" << endl;
 		cout << "1. µµ¼­ °Ë»ö ¹× ´ë¿©" << endl;
 		cout << "2. µµ¼­ ¹Ý³³" << endl;
+		cout << "¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡" << endl;
 		int num = GetCommand(2);
+		cout << "¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡" << endl;
 		switch (num)
 		{
 		case 1:
@@ -86,8 +111,6 @@ void App::login()
 		{
 			if (pw == userList[i]->getpw())
 			{
-				cout << "¢¹" << userList[i]->getname() << "´Ô È¯¿µÇÕ´Ï´Ù!" << endl;
-				cout << "¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡" << endl;
 				loginedUser = userList[i];
 				startmenu();
 			}
@@ -102,16 +125,16 @@ void App::login()
 	return;
 }
 
-void App::readFile(bool isBinary)
+void App::readFile(int num)
 {
-	switch (isBinary)
+	switch (num)
 	{
-	case true:
+	case 1:
 		fr = new BinaryReader();
 		fr->readUserFile(&userList);
 		fr->readBookFile(&bookList);
 		break;
-	case false:
+	case 2:
 		fr = new TextReader();
 		fr->readUserFile(&userList);
 		fr->readBookFile(&bookList);
@@ -140,40 +163,70 @@ void App::writeFile()
 	ofs.close();
 	// Write UserText
 
-	ofstream ofs2("UserBinary.dat", ios::binary);
+	ofstream ofs2("UserBinary.dat", ios::binary | ios::out);
+	string tab = "\t"; // \t,\n ³Ö¾î¾ß ÇÏ´ÂÁö? (°³Çà¹®ÀÚ)
+	//ofs2.write(tab.c_str(), tab.size()); // tab
+	string enter = "\n";
+	//ofs2.write(enter.c_str(),enter.size()); // enter
+	for (int i = 0; i < userList.size(); i++)
+	{
+		int id = userList[i]->getid();
+		int p_len = userList[i]->getpw().size();
+		int n_len = userList[i]->getname().size();
+		int borrowed_num = userList[i]->GetborrowingList().size();
+		string pw = userList[i]->getpw();
+		string name = userList[i]->getname();
+
+		ofs2.write((char*)id, sizeof(int)); // ¾ÆÀÌµð
+		ofs2.write((char*)p_len, sizeof(int)); // ºñ¹Ð¹øÈ£ ±æÀÌ
+		ofs2.write(pw.c_str(), p_len); // ºñ¹Ð¹øÈ£
+		ofs2.write((char*)n_len, sizeof(int)); // ÀÌ¸§ ±æÀÌ
+		ofs2.write(name.c_str(), n_len); // ÀÌ¸§
+		ofs2.write((char*)borrowed_num, sizeof(int)); // ´ë¿©ÇÑ Ã¥ÀÇ ¼ö
+		for (int j = 0; j < borrowed_num; j++)
+		{
+			int borrowedID = userList[i]->GetborrowingList()[j];
+			ofs2.write((char*)borrowedID, sizeof(int));
+		}
+	}
+	ofs2.close();
 
 	ofstream ofs3("BookText.txt");
 	for (int i = 0; i < bookList.size(); i++)
 	{
-		ofs << bookList[i]->Getbookid() << "\t";
-		ofs << bookList[i]->Getname() << "\t";
-		ofs << bookList[i]->Getauthor() << "\t";
-		ofs << bookList[i]->Getyear() << "\t";
+		ofs3 << bookList[i]->Getbookid() << "\t";
+		ofs3 << bookList[i]->Getname() << "\t";
+		ofs3 << bookList[i]->Getauthor() << "\t";
+		ofs3 << bookList[i]->Getyear() << "\t";
 		if (bookList[i]->Getisborrowed() == true)
 		{
-			ofs << bookList[i]->Getisborrowed() << "\t";
-			ofs << bookList[i]->GetborrwedID() << "\n";
+			ofs3 << bookList[i]->Getisborrowed() << "\t";
+			ofs3 << bookList[i]->GetborrwedID() << "\n";
 		}
 		// ´ë¿©ÀÚ°¡ ÀÖ´Â °æ¿ì
 		else
 		{
-			ofs << bookList[i]->Getisborrowed() << "\n";
+			ofs3 << bookList[i]->Getisborrowed() << "\n";
 		}
 		// ´ë¿©ÀÚ°¡ ¾øÀ¸¸é ´ë¿©ÀÚ ID´Â ÀúÀåÇÏÁö ¾Ê´Â´Ù.
 	}
+	ofs3.close();
 }
 
 void App::searchBook()
 {
 	buildIndex();
 	string key;
-	cout << "Ã¥ ÀÌ¸§ ÀÔ·Â: ";
+	cout << "µµ¼­¸íÀ» ÀÔ·ÂÇØ ÁÖ¼¼¿ä" << endl;
+	cout << "¢º : ";
 	cin >> key;
+	cout << "¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡" << endl;
 	vector<Book*> tempResult1;
 	tempResult1 = (sa->search(key)); // Ã¥ ÀÌ¸§À¸·Î °Ë»ö °á°ú
 	if (tempResult1.size() == 0)
 	{
 		cout << "Ã£´Â µµ¼­°¡ ¾ø½À´Ï´Ù." << endl;
+		cout << "¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡" << endl;
 		return;
 	}
 
@@ -182,8 +235,10 @@ void App::searchBook()
 	vector<Book*> tempResult2; // ÀúÀÚ¸íÀ¸·Î Ãß°¡ °Ë»ö
 	vector<Book*> finalResult; // ÃâÆÇ³âµµ·Î Ãß°¡ °Ë»ö
 	
-	cout << "Ã£´Â Ã¥ÀÇ ÀúÀÚ¸í: ";
+	cout << "ÀúÀÚ¸íÀ» ÀÔ·ÂÇØ ÁÖ¼¼¿ä" << endl;
+	cout << "¢º : ";
 	cin >> author;
+	cout << "¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡" << endl;
 	for (int i = 0; i < tempResult1.size(); i++)
 	{
 		if (author == tempResult1.at(i)->Getauthor())
@@ -193,8 +248,10 @@ void App::searchBook()
 	}
 	// ÀúÀÚ¸í °Ë»ö
 
-	cout << "Ã£´Â Ã¥ÀÇ ÃâÆÇ³âµµ: ";
+	cout << "ÃâÆÇ³âµµ¸¦ ÀÔ·ÂÇØ ÁÖ¼¼¿ä" << endl;
+	cout << "¢º : ";
 	cin >> year;
+	cout << "¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡" << endl;
 	for (int i = 0; i < tempResult2.size(); i++)
 	{
 		if (year == tempResult2.at(i)->Getyear())
@@ -203,27 +260,30 @@ void App::searchBook()
 		}
 	}
 	// ÃâÆÇ³âµµ °Ë»ö
+	if (finalResult.size() != 0)
+	{
+		cout << "¦¡¦¡¦¡¦¡¦¡Ã£Àº µµ¼­ ¸ñ·Ï¦¡¦¡¦¡¦¡¦¡" << endl;
+	}
 	while (1)
 	{
 		for (int i = 0; i < finalResult.size(); i++)
 		{
 			cout << i+1 << ". ";
-			cout << "Ã¥ ÀÌ¸§: " << finalResult.at(i)->Getname();
-			cout << "ÀúÀÚ¸í: " << finalResult.at(i)->Getauthor();
-			cout << "ÃâÆÇ ¿¬µµ: " << finalResult.at(i)->Getyear() << endl;
+			cout << "µµ¼­¸í: " << finalResult.at(i)->Getname() << endl;
+			cout << "   ÀúÀÚ¸í: " << finalResult.at(i)->Getauthor() << endl;
+			cout << "   ÃâÆÇ ¿¬µµ: " << finalResult.at(i)->Getyear() << endl;
 		}
-		cout << endl;
+		cout << "¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡" << endl;
 		cout << "1. µµ¼­ ´ë¿©" << endl;
 		cout << "0. µÚ·Î °¡±â" << endl;
 		int cmd1 = GetCommand(1);
 		switch (cmd1)
 		{
 		case 1:
-			system("pause");
-			system("cls");
 			borrowBook(finalResult);
-			break;
-		case 2:
+			finalResult.clear();
+			return;
+		case 0:
 			return;
 		}
 	}
@@ -231,75 +291,170 @@ void App::searchBook()
 
 void App::borrowBook(vector<Book*> searchbook)
 {
-	cout << "´ë¿©ÇÒ Ã¥ ¼±ÅÃ: " << endl;
+	system("pause");
+	system("cls");
+	cout << "¦£¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¤" << endl;
+	cout << "¦¢                              ¦¢" << endl;
+	cout << "¦¢     ¢º   µµ¼­ ´ë¿©    ¢¸     ¦¢" << endl;
+	cout << "¦¢                              ¦¢" << endl;
+	cout << "¦¦¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¥" << endl;
+	cout << "¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡" << endl;
+	cout << "´ë¿©ÇÒ µµ¼­¸¦ ¼±ÅÃÇÏ¼¼¿ä" << endl;
 	for (int i = 0; i < searchbook.size(); i++)
 	{
 		cout << i+1 << ". ";
-		cout << "Ã¥ ÀÌ¸§: " << searchbook[i]->Getname();
-		cout << "ÀúÀÚ¸í: " << searchbook[i]->Getauthor();
-		cout << "ÃâÆÇ ¿¬µµ: " << searchbook[i]->Getyear() << endl;
+		cout << "µµ¼­¸í: " << searchbook[i]->Getname() << endl;
+		cout << "   ÀúÀÚ¸í: " << searchbook[i]->Getauthor() << endl;
+		cout << "   ÃâÆÇ ¿¬µµ: " << searchbook[i]->Getyear() << endl;
 	}
-	int num = GetCommand(searchbook.size()) + 1;
-	if (loginedUser->GetborrowingList().size() > 5)
+	int num = GetCommand(searchbook.size()) -1;
+	if (searchbook[num]->Getisborrowed() == true)
 	{
-		cout << "´õ ÀÌ»ó ´ë¿©ÇÒ ¼ö ¾ø½À´Ï´Ù! ÇÑ¹ø¿¡ ´Ù¼¸±Ç ÀÌ»ó ´ë¿©ÇÏ½Ç ¼ö ¾ø½À´Ï´Ù." << endl;
+		cout << "ÀÌ¹Ì ´ë¿©µÈ Ã¥ ÀÔ´Ï´Ù" << endl;
+		cout << "¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡" << endl;
+		return;
 	}
-	loginedUser->GetborrowingList().push_back(searchbook[num]->Getbookid()); // ·Î±×ÀÎÇÑ À¯ÀúÀÇ ´ë¿©Ã¥ ¸®½ºÆ®¿¡ ÀúÀå
-	searchbook[num]->SetBorrowed(true); // ´ë¿©µÈ Ã¥ÀÓÀ» ¸í½Ã
-	searchbook[num]->SetBorrowerID(loginedUser->getid()); // Ã¥¿¡ ´ë¿©ÀÚÀÇ ¾ÆÀÌµð ¸í½Ã
+	else if (loginedUser->GetborrowingList().size() > 5)
+	{
+		cout << "´õ ÀÌ»ó ´ë¿©ÇÒ ¼ö ¾ø½À´Ï´Ù" << endl;
+		cout << "¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡" << endl;
+		return;
+	}
+
+	//loginedUser->GetborrowingList().push_back(searchbook[num]->Getbookid()); // ·Î±×ÀÎÇÑ À¯ÀúÀÇ ´ë¿©Ã¥ ¸®½ºÆ®¿¡ ÀúÀå
+	for (int j = 0; j < bookList.size(); j++)
+	{
+		if (bookList[j]->Getbookid() == searchbook[num]->Getbookid())
+		{
+			loginedUser->setborrowingList(bookList[j]->Getbookid());
+			bookList[j]->SetBorrowed(true);
+			bookList[j]->SetBorrowerID(loginedUser->getid());
+		}
+	}
 	cout << "Ã¥ ´ë¿©°¡ ¿Ï·áµÇ¾ú½À´Ï´Ù." << endl;
+	cout << "¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡" << endl;
+	system("pause");
+	return;
+
+
+	/// ÀÓ½Ãº¤ÅÍ¾²¸é ´ë¿©¿©ºÎ Ç¥½Ã°¡ ¾ÈµÇ´Âµí -> Á÷Á¢ Á¢±ÙÇÏ¿© º¯°æÇÏ±â
+
+	/// ÀÌÁ¦ ÆÄÀÏÀÔÃâ·Â ÄÚµå
 }
 
 void App::returnBook()
 {
-	vector<Book*>* BorrowedBook; // ¿©±â ÁÖ¼Ò¸¦ ´ã¾Æ¾ß ÀÌ ÀÓ½Ãº¤ÅÍ¿¡¼­ ´ë¿©¿©ºÎ º¯¼ö¸¦ ¹Ù²ãµµ ¹Ù²ñ
+	vector<Book*> BorrowedBook; // ¿©±â ÁÖ¼Ò¸¦ ´ã¾Æ¾ß ÀÌ ÀÓ½Ãº¤ÅÍ¿¡¼­ ´ë¿©¿©ºÎ º¯¼ö¸¦ ¹Ù²ãµµ ¹Ù²ñ
 	for (int i = 0; i < bookList.size(); i++)
 	{
-		if (loginedUser->GetborrowingList()[i] == bookList[i]->Getbookid())
+		for (int j = 0; j < loginedUser->GetborrowingList().size(); j++)
 		{
-			BorrowedBook->push_back(bookList[i]);
+  			if (loginedUser->GetborrowingList()[j] == bookList[i]->Getbookid())
+			{
+				BorrowedBook.push_back(bookList[i]); // vetor size error
+			}
 		}
 	}
-	cout << loginedUser->getname() << "´ÔÀÇ ´ë¿©¸ñ·Ï" << endl;
-	for (int i = 0; i < BorrowedBook->size(); i++)
+	system("pause");
+	system("cls");
+	cout << "¦£¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¤" << endl;
+	cout << "¦¢                              ¦¢" << endl;
+	cout << "¦¢     ¢º   µµ¼­ ¹Ý³³    ¢¸     ¦¢" << endl;
+	cout << "¦¢                              ¦¢" << endl;
+	cout << "¦¦¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¥" << endl;
+	cout << "¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡" << endl;
+	if (BorrowedBook.size() == 0)
+	{
+		cout << "¹Ý³³ÇÒ µµ¼­°¡ ¾ø½À´Ï´Ù" << endl;
+		cout << "¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡" << endl;
+		return;
+	}
+	cout <<"¦¡¦¡¦¡" << loginedUser->getname() << "´ÔÀÇ ´ë¿©¸ñ·Ï¦¡¦¡¦¡" << endl;
+	for (int i = 0; i < BorrowedBook.size(); i++)
 	{
 		cout << i + 1 << ". ";
-		cout << "Ã¥ ÀÌ¸§: " << BorrowedBook->at(i)->Getname() << endl;
-		cout << "ÀúÀÚ¸í: " << BorrowedBook->at(i)->Getauthor() << endl;
-		cout << "ÃâÆÇ ¿¬µµ: " << BorrowedBook->at(i)->Getyear() << endl << endl;
+		cout << "Ã¥ ÀÌ¸§: " << BorrowedBook.at(i)->Getname() << endl;
+		cout << "ÀúÀÚ¸í: " << BorrowedBook.at(i)->Getauthor() << endl;
+		cout << "ÃâÆÇ ¿¬µµ: " << BorrowedBook.at(i)->Getyear() << endl << endl;
 	}
-	int num = GetCommand(BorrowedBook->size()) + 1;
-	for (int j = 0; j < BorrowedBook->size(); j++)
+	cout << "¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡" << endl;
+	cout << "¹Ý³³ÇÒ µµ¼­¸¦ ¼±ÅÃÇÏ¼¼¿ä" << endl;
+	int num = GetCommand(BorrowedBook.size()) - 1;
+
+	for (int i = 0; i < bookList.size(); i++)
 	{
-		if (loginedUser->GetborrowingList().at(num-1) == BorrowedBook->at(j)->Getbookid())
+		if (bookList[i]->Getbookid() == BorrowedBook[num]->Getbookid())
 		{
-			loginedUser->GetborrowingList().erase(loginedUser->GetborrowingList().begin() + num - 1); // ÇØ´ç À¯ÀúÀÇ ´ë¿©¸ñ·Ï¿¡¼­ Á¦¿ÜÇÑ´Ù.
-			BorrowedBook->at(j)->SetBorrowerID(-1); // ¹Ý³³ÇÑ Ã¥ÀÇ ´ë¿©ÀÚID´Â -1·Î ÇÑ´Ù.
-			BorrowedBook->at(j)->SetBorrowed(false); // ¹Ý³³ÇÑ Ã¥ÀÇ ´ë¿©¿©ºÎ´Â false·Î ¹Ù²Û´Ù.
+			// ¹Ý³³ÇÒ Ã¥À» Ã£¾Ò´Ù!
+			for (int j = 0; j < loginedUser->GetborrowingList().size(); j++)
+			{
+				if (loginedUser->GetborrowingList()[j] == bookList[i]->Getbookid())
+				{
+					loginedUser->GetborrowingList().erase(loginedUser->GetborrowingList().begin() + j);
+				}
+				// ´ë¿©¸ñ·Ï¿¡¼­ Áö¿ì°í
+			}
+			bookList[i]->SetBorrowed(false);
+			bookList[i]->SetBorrowerID(-1);
+			// Ã¥ÀÇ µ¥ÀÌÅÍ¸¦ ¼öÁ¤ÇÑ´Ù.
 		}
 	}
+	//for (int j = 0; j < BorrowedBook.size(); j++)
+	//{
+	//	if (loginedUser->GetborrowingList().at(num-1) == BorrowedBook.at(j)->Getbookid())
+	//	{
+	//		loginedUser->GetborrowingList().erase(loginedUser->GetborrowingList().begin() + num - 1); // ÇØ´ç À¯ÀúÀÇ ´ë¿©¸ñ·Ï¿¡¼­ Á¦¿ÜÇÑ´Ù.
+	//		/// ÀÓ½Ãº¤ÅÍ¾²¸é ´ë¿©¿©ºÎ Ç¥½Ã°¡ ¾ÈµÇ´Âµí -> Á÷Á¢ Á¢±ÙÇÏ¿© º¯°æÇÏ±â
+	//		BorrowedBook.at(j)->SetBorrowerID(-1); // ¹Ý³³ÇÑ Ã¥ÀÇ ´ë¿©ÀÚID´Â -1·Î ÇÑ´Ù. // ÀÌ·¸°Ô ÇØµµ ¿ø·¡ µ¥ÀÌÅÍ¿¡ ¿µÇâÀ» ÁÖ´ÂÁö È®ÀÎ
+	//		BorrowedBook.at(j)->SetBorrowed(false); // ¹Ý³³ÇÑ Ã¥ÀÇ ´ë¿©¿©ºÎ´Â false·Î ¹Ù²Û´Ù.
+	//	}
+	//}
+	cout << "µµ¼­ ¹Ý³³À» ¿Ï·áÇÏ¿´½À´Ï´Ù." << endl;
+	cout << "¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡" << endl;
+	system("pause");
+
 }
 
 void App::buildIndex()
 {
-	int command;
 	cout << "1. Binary Search Tree" << endl;
 	cout << "2. Hash" << endl;
 	cout << "3. Binary Search" << endl;
-	cin >> command;
+	int command = GetCommand(3);
 
 	switch (command)
 	{
 	case 1:
+		system("cls");
+		cout << "¦£¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¤" << endl;
+		cout << "¦¢                              ¦¢" << endl;
+		cout << "¦¢   ¢º Binary Search Tree ¢¸   ¦¢" << endl;
+		cout << "¦¢                              ¦¢" << endl;
+		cout << "¦¦¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¥" << endl;
+		cout << "¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡" << endl;
 		sa = new BST(&bookList);
 		((BST*)sa)->buildIndex();
 		break;
 	case 2:
+		system("cls");
+		cout << "¦£¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¤" << endl;
+		cout << "¦¢                              ¦¢" << endl;
+		cout << "¦¢          ¢º Hash ¢¸          ¦¢" << endl;
+		cout << "¦¢                              ¦¢" << endl;
+		cout << "¦¦¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¥" << endl;
+		cout << "¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡" << endl;
 		sa = new Hash(&bookList);
 		((Hash*)sa)->buildIndex();
 		break;
 	case 3:
-		sa = new BinarySearch();
+		system("cls");
+		cout << "¦£¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¤" << endl;
+		cout << "¦¢                              ¦¢" << endl;
+		cout << "¦¢     ¢º  Binary Search ¢¸     ¦¢" << endl;
+		cout << "¦¢                              ¦¢" << endl;
+		cout << "¦¦¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¥" << endl;
+		cout << "¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡" << endl;
+		sa = new BinarySearch(&bookList);
 		break;
 	}
 }
