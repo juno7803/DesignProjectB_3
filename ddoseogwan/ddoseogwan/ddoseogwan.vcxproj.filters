@@ -105,4 +105,20 @@
       <Filter>소스 파일</Filter>
     </ClCompile>
   </ItemGroup>
+  <ItemGroup>
+    <Text Include="UserText.txt">
+      <Filter>리소스 파일</Filter>
+    </Text>
+    <Text Include="BookText.txt">
+      <Filter>리소스 파일</Filter>
+    </Text>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="BookBinary.dat">
+      <Filter>리소스 파일</Filter>
+    </None>
+    <None Include="UserBinary.dat">
+      <Filter>리소스 파일</Filter>
+    </None>
+  </ItemGroup>
 </Project>

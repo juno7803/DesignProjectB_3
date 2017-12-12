@@ -144,13 +144,9 @@ void App::readFile(int num)
 	switch (num)
 	{
 	case 1:
-		fr = new TextReader();
-		fr->readUserFile(&userList);
-		//fr->readUserFile(&userList);
 		fr = new BinaryReader();
+		fr->readUserFile(&userList);
 		fr->readBookFile(&bookList);
-		/// 임시
-
 		break;
 	case 2:
 		fr = new TextReader();
@@ -165,23 +161,25 @@ void App::writeFile()
 // BookB만 바뀔때마다 써주면 된다!
 {
 	ofstream ofs("UserText.txt");
-	for (int i = 0; i < userList.size(); i++)
+	for (int i = 0; i < (int)userList.size(); i++)
 	{
 		ofs << userList[i]->getid() << "\t";
 		ofs << userList[i]->getpw() << "\t";
 		ofs << userList[i]->getname() << "\t";
-		ofs << userList[i]->GetborrowingList().size() << "\t";
+		ofs << userList[i]->GetborrowingList().size();
 		for (int j = 0; j < userList[i]->GetborrowingList().size(); j++)
 		{
-			if (j == userList[i]->GetborrowingList().size())
-				ofs << userList[i]->GetborrowingList()[j] << "\n";
-			ofs << userList[i]->GetborrowingList()[j] << "\t";
+			ofs << "\t" << userList[i]->GetborrowingList()[j];
+		}
+		if (i != (int)userList.size() - 1)
+		{
+			ofs << endl;
 		}
 	}
 	ofs.close();
 	// Write UserText
 
-	ofstream ofs2("UserBinary.dat", ios::binary|ios::out);
+	ofstream ofs2("UserBinary.dat", ios::binary | ios::out);
 	for (int i = 0; i < userList.size(); i++)
 	{
 		int id = userList[i]->getid();
@@ -191,16 +189,16 @@ void App::writeFile()
 		string pw = userList[i]->getpw();
 		string name = userList[i]->getname();
 
-		ofs2.write((char*)id, sizeof(int)); // 아이디
-		ofs2.write((char*)p_len, sizeof(int)); // 비밀번호 길이
+		ofs2.write((char*)&id, sizeof(int)); // 아이디
+		ofs2.write((char*)&p_len, sizeof(int)); // 비밀번호 길이
 		ofs2.write(pw.c_str(), p_len); // 비밀번호
-		ofs2.write((char*)n_len, sizeof(int)); // 이름 길이
+		ofs2.write((char*)&n_len, sizeof(int)); // 이름 길이
 		ofs2.write(name.c_str(), n_len); // 이름
-		ofs2.write((char*)borrowed_num, sizeof(int)); // 대여한 책의 수
+		ofs2.write((char*)&borrowed_num, sizeof(int)); // 대여한 책의 수
 		for (int j = 0; j < borrowed_num; j++)
 		{
 			int borrowedID = userList[i]->GetborrowingList()[j];
-			ofs2.write((char*)borrowedID, sizeof(int));
+			ofs2.write((char*)&borrowedID, sizeof(int));
 		}
 	}
 	ofs2.close();
@@ -213,15 +211,15 @@ void App::writeFile()
 		ofs3 << bookList[i]->Getname() << "\t";
 		ofs3 << bookList[i]->Getauthor() << "\t";
 		ofs3 << bookList[i]->Getyear() << "\t";
+		ofs3 << bookList[i]->Getisborrowed();
 		if (bookList[i]->Getisborrowed() == true)
 		{
-			ofs3 << bookList[i]->Getisborrowed() << "\t";
-			ofs3 << bookList[i]->GetborrwedID() << "\n";
+			ofs3 << "\t" << bookList[i]->GetborrwedID();
 		}
 		// 대여자가 있는 경우
-		else
+		if (i != (int)bookList.size() - 1)
 		{
-			ofs3 << bookList[i]->Getisborrowed() << "\n";
+			ofs3 << endl;
 		}
 		// 대여자가 없으면 대여자 ID는 저장하지 않는다.
 	}

@@ -5,6 +5,7 @@
 #include "BinaryReader.h"
 #include "TextReader.h"
 #include <iostream>
+#include <sstream>
 using namespace std;
 
 class App

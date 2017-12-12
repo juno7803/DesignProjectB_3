@@ -1,5 +1,6 @@
 #pragma once
 #include "FileReader.h"
+#include <sstream>
 class TextReader :
 	public FileReader
 {
