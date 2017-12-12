@@ -1,20 +1,2 @@
-﻿  App.cpp
-c:\users\juno\documents\github\designproject_b\designprojectb_3\ddoseogwan\ddoseogwan\app.cpp(108): warning C4018: '<': signed 또는 unsigned가 일치하지 않습니다.
-c:\users\juno\documents\github\designproject_b\designprojectb_3\ddoseogwan\ddoseogwan\app.cpp(150): warning C4018: '<': signed 또는 unsigned가 일치하지 않습니다.
-c:\users\juno\documents\github\designproject_b\designprojectb_3\ddoseogwan\ddoseogwan\app.cpp(156): warning C4018: '<': signed 또는 unsigned가 일치하지 않습니다.
-c:\users\juno\documents\github\designproject_b\designprojectb_3\ddoseogwan\ddoseogwan\app.cpp(171): warning C4018: '<': signed 또는 unsigned가 일치하지 않습니다.
-c:\users\juno\documents\github\designproject_b\designprojectb_3\ddoseogwan\ddoseogwan\app.cpp(195): warning C4018: '<': signed 또는 unsigned가 일치하지 않습니다.
-c:\users\juno\documents\github\designproject_b\designprojectb_3\ddoseogwan\ddoseogwan\app.cpp(242): warning C4018: '<': signed 또는 unsigned가 일치하지 않습니다.
-c:\users\juno\documents\github\designproject_b\designprojectb_3\ddoseogwan\ddoseogwan\app.cpp(255): warning C4018: '<': signed 또는 unsigned가 일치하지 않습니다.
-c:\users\juno\documents\github\designproject_b\designprojectb_3\ddoseogwan\ddoseogwan\app.cpp(269): warning C4018: '<': signed 또는 unsigned가 일치하지 않습니다.
-c:\users\juno\documents\github\designproject_b\designprojectb_3\ddoseogwan\ddoseogwan\app.cpp(303): warning C4018: '<': signed 또는 unsigned가 일치하지 않습니다.
-c:\users\juno\documents\github\designproject_b\designprojectb_3\ddoseogwan\ddoseogwan\app.cpp(330): warning C4018: '<': signed 또는 unsigned가 일치하지 않습니다.
-c:\users\juno\documents\github\designproject_b\designprojectb_3\ddoseogwan\ddoseogwan\app.cpp(353): warning C4018: '<': signed 또는 unsigned가 일치하지 않습니다.
-c:\users\juno\documents\github\designproject_b\designprojectb_3\ddoseogwan\ddoseogwan\app.cpp(373): warning C4018: '<': signed 또는 unsigned가 일치하지 않습니다.
-c:\users\juno\documents\github\designproject_b\designprojectb_3\ddoseogwan\ddoseogwan\app.cpp(375): warning C4018: '<': signed 또는 unsigned가 일치하지 않습니다.
-c:\users\juno\documents\github\designproject_b\designprojectb_3\ddoseogwan\ddoseogwan\app.cpp(398): warning C4018: '<': signed 또는 unsigned가 일치하지 않습니다.
-c:\users\juno\documents\github\designproject_b\designprojectb_3\ddoseogwan\ddoseogwan\app.cpp(416): warning C4018: '<': signed 또는 unsigned가 일치하지 않습니다.
-c:\users\juno\documents\github\designproject_b\designprojectb_3\ddoseogwan\ddoseogwan\app.cpp(440): warning C4018: '<': signed 또는 unsigned가 일치하지 않습니다.
-c:\users\juno\documents\github\designproject_b\designprojectb_3\ddoseogwan\ddoseogwan\app.cpp(445): warning C4018: '<': signed 또는 unsigned가 일치하지 않습니다.
-  ddoseogwan.vcxproj -> C:\Users\Juno\Documents\GitHub\DesignProject_B\DesignProjectB_3\ddoseogwan\Debug\ddoseogwan.exe
+﻿  ddoseogwan.vcxproj -> C:\Users\Juno\Documents\GitHub\DesignProject_B\DesignProjectB_3\ddoseogwan\Debug\ddoseogwan.exe
   ddoseogwan.vcxproj -> C:\Users\Juno\Documents\GitHub\DesignProject_B\DesignProjectB_3\ddoseogwan\Debug\ddoseogwan.pdb (Full PDB)

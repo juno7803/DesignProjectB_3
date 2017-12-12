@@ -16,6 +16,7 @@ public:
 	vector<int> GetborrowingList();
 
 	void setborrowingList(int id);
+	void ResetBorrowingList(vector<int> li);
 
 private:
 	int id;

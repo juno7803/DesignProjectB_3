@@ -4,9 +4,9 @@ App::App()
 {
 }
 
-
 App::~App()
 {
+	writeFile();
 }
 
 int App::GetCommand(int maxCommand)
@@ -81,6 +81,7 @@ void App::startmenu()
 		cout << "─────────────────" << endl;
 		cout << "1. 도서 검색 및 대여" << endl;
 		cout << "2. 도서 반납" << endl;
+		cout << "0. 뒤로 가기" << endl;
 		cout << "─────────────────" << endl;
 		int num = GetCommand(2);
 		cout << "─────────────────" << endl;
@@ -92,6 +93,13 @@ void App::startmenu()
 		case 2:
 			returnBook();
 			break;
+		case 0:
+			loginedUser = nullptr;
+			cout << "자동 로그아웃 되었습니다" << endl;
+			cout << "─────────────────" << endl;
+			system("pause");
+			system("cls");
+			return;
 		}
 	}
 }
@@ -112,16 +120,22 @@ void App::login()
 			if (pw == userList[i]->getpw())
 			{
 				loginedUser = userList[i];
+				system("pause");
 				startmenu();
+				return;
 			}
 			else
 			{
 				cout << "비밀번호가 일치하지 않습니다" << endl;
+				system("pause");
+				system("cls");
 				return;
 			}
 		}
 	}
 	cout << "일치하는 아이디가 없습니다" << endl;
+	system("pause");
+	system("cls");
 	return;
 }
 
@@ -130,9 +144,13 @@ void App::readFile(int num)
 	switch (num)
 	{
 	case 1:
-		fr = new BinaryReader();
+		fr = new TextReader();
 		fr->readUserFile(&userList);
+		//fr->readUserFile(&userList);
+		fr = new BinaryReader();
 		fr->readBookFile(&bookList);
+		/// 임시
+
 		break;
 	case 2:
 		fr = new TextReader();
@@ -163,7 +181,7 @@ void App::writeFile()
 	ofs.close();
 	// Write UserText
 
-	ofstream ofs2("UserBinary.dat", ios::binary);
+	ofstream ofs2("UserBinary.dat", ios::binary|ios::out);
 	for (int i = 0; i < userList.size(); i++)
 	{
 		int id = userList[i]->getid();
@@ -289,6 +307,7 @@ void App::searchBook()
 
 void App::borrowBook(vector<Book*> searchbook)
 {
+	// 파라미터의 searchbook은 search 함수의 최종결과로 나온 리스트를 담고오는 벡터
 	system("pause");
 	system("cls");
 	cout << "┌───────────────┐" << endl;
@@ -347,14 +366,14 @@ void App::borrowBook(vector<Book*> searchbook)
 		}
 	}
 
-	//loginedUser->GetborrowingList().push_back(searchbook[num]->Getbookid()); // 로그인한 유저의 대여책 리스트에 저장
 	for (int j = 0; j < bookList.size(); j++)
 	{
-		if (bookList[j]->Getbookid() == searchbook[num]->Getbookid())
+		if (bookList[j]->Getbookid() == searchbook[num]->Getbookid()) // 원래 bookList에서 정보를 수정하기 위해 searchbook과 대조하여 원본을 찾는다.
 		{
 			loginedUser->setborrowingList(bookList[j]->Getbookid());
 			bookList[j]->SetBorrowed(true);
 			bookList[j]->SetBorrowerID(loginedUser->getid());
+			// 책의 데이터 수정
 		}
 	}
 	cout << "책 대여가 완료되었습니다." << endl;
@@ -362,19 +381,18 @@ void App::borrowBook(vector<Book*> searchbook)
 	system("pause");
 
 	return;
-
 }
 
 void App::returnBook()
 {
-	vector<Book*> BorrowedBook; // 여기 주소를 담아야 이 임시벡터에서 대여여부 변수를 바꿔도 바뀜
+	vector<Book*> BorrowedBook; // 로그인한 유저의 대여목록을 담는 임시 벡터
 	for (int i = 0; i < bookList.size(); i++)
 	{
 		for (int j = 0; j < loginedUser->GetborrowingList().size(); j++)
 		{
   			if (loginedUser->GetborrowingList()[j] == bookList[i]->Getbookid())
 			{
-				BorrowedBook.push_back(bookList[i]); // vetor size error
+				BorrowedBook.push_back(bookList[i]);
 			}
 		}
 	}
@@ -399,10 +417,34 @@ void App::returnBook()
 		cout << "책 이름: " << BorrowedBook.at(i)->Getname() << endl;
 		cout << "저자명: " << BorrowedBook.at(i)->Getauthor() << endl;
 		cout << "출판 연도: " << BorrowedBook.at(i)->Getyear() << endl << endl;
+		// 책의 데이터 출력
 	}
 	cout << "─────────────────" << endl;
 	cout << "반납할 도서를 선택하세요" << endl;
 	int num = GetCommand(BorrowedBook.size()) - 1;
+
+	/// bookList에서 해당 도서의 레코드 수정
+	vector<int> list = loginedUser->GetborrowingList();
+	for (int i = 0; i < bookList.size(); i++)
+	{
+		if (bookList[i]->Getbookid() == BorrowedBook[num]->Getbookid())
+		{
+			// 반납할 책을 찾았다!
+			for (int j = 0; j < loginedUser->GetborrowingList().size(); j++)
+			{
+				if (loginedUser->GetborrowingList()[j] == bookList[i]->Getbookid())
+				{
+					list.erase(list.begin() + j);
+					loginedUser->ResetBorrowingList(list);
+					//loginedUser->GetborrowingList().erase(loginedUser->GetborrowingList().begin() + j); // 에러가 나는 이유??
+				}
+				// 대여목록에서 지우고
+			}
+			bookList[i]->SetBorrowed(false);
+			bookList[i]->SetBorrowerID(-1);
+		 	// 책의 데이터를 수정한다.
+		}
+	}
 
 	/// Bookbinary Code
 	fstream fs("BookBinary.dat", ios::binary | ios::in | ios::out); // 바이너리/읽기/쓰기
@@ -419,10 +461,10 @@ void App::returnBook()
 		fs.read((char*)&AuthorLength, sizeof(int)); // 저자 이름 길이 읽어서
 		fs.seekg(AuthorLength + sizeof(int), ios::cur); // 저자이름+출판연도 건너뜀
 
-		/// 디버그해서 read 함수써도 curpointer가 이동하는지 확인
+														/// 디버그해서 read 함수써도 curpointer가 이동하는지 확인
 		if (BookID == BorrowedBook[num]->Getbookid())
-		// 반납에 해당하는 경우임
-		// 현재위치에 대여여부와 대여자 아이디 덮어쓴다!
+			// 반납에 해당하는 경우임
+			// 현재위치에 대여여부와 대여자 아이디 덮어쓴다!
 		{
 			fs.write((char*)&returned, sizeof(bool));
 			fs.write((char*)&returnedID, sizeof(int));
@@ -431,26 +473,6 @@ void App::returnBook()
 		{
 			fs.seekg(sizeof(bool) + sizeof(int), ios::cur);
 			// 찾던 도서가 아닐 경우 대여여부(bool) + 대여자아이디(int) 건너뜀
-		}
-	}
-
-	/// bookList에서 해당 도서의 레코드 수정
-	for (int i = 0; i < bookList.size(); i++)
-	{
-		if (bookList[i]->Getbookid() == BorrowedBook[num]->Getbookid())
-		{
-			// 반납할 책을 찾았다!
-			for (int j = 0; j < loginedUser->GetborrowingList().size(); j++)
-			{
-				if (loginedUser->GetborrowingList()[j] == bookList[i]->Getbookid())
-				{
-					loginedUser->GetborrowingList().erase(loginedUser->GetborrowingList().begin() + j);
-				}
-				// 대여목록에서 지우고
-			}
-			bookList[i]->SetBorrowed(false);
-			bookList[i]->SetBorrowerID(-1);
-			// 책의 데이터를 수정한다.
 		}
 	}
 

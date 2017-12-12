@@ -46,3 +46,8 @@ void User::setborrowingList(int id)
 {
 	borrowingList.push_back(id);
 }
+
+void User::ResetBorrowingList(vector<int> li)
+{
+	borrowingList = li;
+}

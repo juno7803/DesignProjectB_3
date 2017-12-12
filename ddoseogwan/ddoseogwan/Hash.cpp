@@ -2,10 +2,6 @@
 
 Hash::Hash()
 {
-	for (int i = 0; i < _bookList->size(); i++)
-	{
-		hashTable[i] = new Bucket; // 책 개수만큼 빈방을 미리 만들어 준다.
-	}
 }
 
 Hash::Hash(vector<Book*>* booklist)
