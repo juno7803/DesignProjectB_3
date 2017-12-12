@@ -21,15 +21,17 @@ void TextReader::readUserFile(vector<User*>* _userList)
 	string record;
 	while (getline(ifs, record))
 	{
+		//bookid = -2;
 		istringstream fin(record);
 
 		fin >> id >> pw >> name >> bnum;
+		User* temp = new User(id, pw, name);
 		for (int i = 0; i < bnum; i++)
 		{
 			fin >> bookid;
-			borrowlist.push_back(bookid);
+			temp->setborrowingList(bookid);
 		}
-		User* temp = new User(id, pw, name, borrowlist);
+
 		_userList->push_back(temp);
 	}
 	//while (!ifs.eof())

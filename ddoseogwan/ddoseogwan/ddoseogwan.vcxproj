@@ -175,12 +175,12 @@
     <ClCompile Include="WithIndex.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <Text Include="BookText.txt" />
-    <Text Include="UserText.txt" />
-  </ItemGroup>
-  <ItemGroup>
     <None Include="BookBinary.dat" />
     <None Include="UserBinary.dat" />
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="BookText.txt" />
+    <Text Include="UserText.txt" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

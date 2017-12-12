@@ -8,7 +8,7 @@ class User
 {
 public:
 	User();
-	User(int _id, string _pw, string _name, vector<int> _bl);
+	User(int _id, string _pw, string _name);
 	~User();
 	int getid();
 	string getpw();

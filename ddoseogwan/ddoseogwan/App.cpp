@@ -179,6 +179,28 @@ void App::writeFile()
 	ofs.close();
 	// Write UserText
 
+	ofstream ofs3("BookText.txt");
+	for (int i = 0; i < bookList.size(); i++)
+	{
+		ofs3 << bookList[i]->Getbookid() << "\t";
+		ofs3 << bookList[i]->Getname() << "\t";
+		ofs3 << bookList[i]->Getauthor() << "\t";
+		ofs3 << bookList[i]->Getyear() << "\t";
+		ofs3 << bookList[i]->Getisborrowed();
+		if (bookList[i]->Getisborrowed() == true)
+		{
+			ofs3 << "\t" << bookList[i]->GetborrwedID();
+		}
+		// 대여자가 있는 경우
+		if (i != (int)bookList.size() - 1)
+		{
+			ofs3 << endl;
+		}
+		// 대여자가 없으면 대여자 ID는 저장하지 않는다.
+	}
+	ofs3.close();
+	// Write BookText
+
 	ofstream ofs2("UserBinary.dat", ios::binary | ios::out);
 	for (int i = 0; i < userList.size(); i++)
 	{
@@ -203,28 +225,6 @@ void App::writeFile()
 	}
 	ofs2.close();
 	// Write UserBinary
-
-	ofstream ofs3("BookText.txt");
-	for (int i = 0; i < bookList.size(); i++)
-	{
-		ofs3 << bookList[i]->Getbookid() << "\t";
-		ofs3 << bookList[i]->Getname() << "\t";
-		ofs3 << bookList[i]->Getauthor() << "\t";
-		ofs3 << bookList[i]->Getyear() << "\t";
-		ofs3 << bookList[i]->Getisborrowed();
-		if (bookList[i]->Getisborrowed() == true)
-		{
-			ofs3 << "\t" << bookList[i]->GetborrwedID();
-		}
-		// 대여자가 있는 경우
-		if (i != (int)bookList.size() - 1)
-		{
-			ofs3 << endl;
-		}
-		// 대여자가 없으면 대여자 ID는 저장하지 않는다.
-	}
-	ofs3.close();
-	// Write BookText
 }
 
 void App::searchBook()
@@ -241,6 +241,7 @@ void App::searchBook()
 	{
 		cout << "찾는 도서가 없습니다." << endl;
 		cout << "─────────────────" << endl;
+		system("pause");
 		return;
 	}
 
@@ -260,6 +261,13 @@ void App::searchBook()
 			tempResult2.push_back(tempResult1.at(i));
 		}
 	}
+	if (tempResult2.size() == 0)
+	{
+		cout << "찾는 도서가 없습니다." << endl;
+		cout << "─────────────────" << endl;
+		system("pause");
+		return;
+	}
 	// 저자명 검색
 
 	cout << "출판년도를 입력해 주세요" << endl;
@@ -272,6 +280,13 @@ void App::searchBook()
 		{
 			finalResult.push_back(tempResult2.at(i));
 		}
+	}
+	if (finalResult.size() == 0)
+	{
+		cout << "찾는 도서가 없습니다." << endl;
+		cout << "─────────────────" << endl;
+		system("pause");
+		return;
 	}
 	// 출판년도 검색
 	if (finalResult.size() != 0)
@@ -335,6 +350,18 @@ void App::borrowBook(vector<Book*> searchbook)
 		cout << "─────────────────" << endl;
 		return;
 	}
+
+	for (int j = 0; j < bookList.size(); j++)
+	{
+		if (bookList[j]->Getbookid() == searchbook[num]->Getbookid()) // 원래 bookList에서 정보를 수정하기 위해 searchbook과 대조하여 원본을 찾는다.
+		{
+			loginedUser->setborrowingList(bookList[j]->Getbookid());
+			bookList[j]->SetBorrowed(true);
+			bookList[j]->SetBorrowerID(loginedUser->getid());
+			// 책의 데이터 수정
+		}
+	}
+	
 	/// Bookbinary Code
 	fstream fs("BookBinary.dat", ios::binary | ios::in | ios::out); // 바이너리/읽기/쓰기
 	int BookID;
@@ -363,22 +390,11 @@ void App::borrowBook(vector<Book*> searchbook)
 			// 찾던 도서가 아닐 경우 대여여부(bool) + 대여자아이디(int) 건너뜀
 		}
 	}
+	fs.close();
 
-	for (int j = 0; j < bookList.size(); j++)
-	{
-		if (bookList[j]->Getbookid() == searchbook[num]->Getbookid()) // 원래 bookList에서 정보를 수정하기 위해 searchbook과 대조하여 원본을 찾는다.
-		{
-			loginedUser->setborrowingList(bookList[j]->Getbookid());
-			bookList[j]->SetBorrowed(true);
-			bookList[j]->SetBorrowerID(loginedUser->getid());
-			// 책의 데이터 수정
-		}
-	}
 	cout << "책 대여가 완료되었습니다." << endl;
 	cout << "─────────────────" << endl;
 	system("pause");
-
-	return;
 }
 
 void App::returnBook()
